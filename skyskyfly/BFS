@@ -1,0 +1,69 @@
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <queue>
+#include <stack>
+using namespace std;
+const int maxn=4e5+5;
+int n,m;
+queue<pair<int,int> >q;
+bool hash[maxn];
+int main()
+{
+    int m,n;
+  while(cin>>n>>m)
+  {
+    memset(hash,false,sizeof(hash));
+    pair<int,int> p;
+    p.first=n;
+    p.second=0;
+    hash[n]=true;
+    q.push(p);
+    while(!q.empty())
+    {
+      pair<int,int> a,b;
+      a=q.front();
+      if(a.first==m)
+      {
+          cout<<a.second<<endl;
+          break;
+      }
+     a.second++;
+     b=a;
+     if(b.first>m)
+     {
+         b.first=a.first-1;
+         if(hash[b.first]==false)
+         {
+           hash[b.first]=true;//标记该点，表示已经走过
+           q.push(b);
+         }
+     }
+     if(b.first<m)
+     {
+         b.first=a.first+1;
+         if(hash[b.first]==false)
+         {
+           hash[b.first]=true;//标记该点，表示已经走过
+           q.push(b);
+         }
+         b.first=a.first*2;
+        if(hash[b.first]==false)
+         {
+           hash[b.first]=true;
+           q.push(b);
+         }
+         b.first=a.first-1;
+         if(hash[b.first]==false)
+         {
+           hash[b.first]=true;
+           q.push(b);
+         }
+     }
+     q.pop();//弹出队列第一个元素
+    }
+    while(!q.empty())
+        q.pop();//注意清空队列
+  }
+    return 0;
+}
