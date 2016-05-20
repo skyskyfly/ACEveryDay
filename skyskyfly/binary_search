@@ -1,0 +1,68 @@
+//  Memory   Time
+//  1347K     0MS
+//   by : crazyacking
+//   2015-03-31-21.36
+#include<map>
+#include<queue>
+#include<stack>
+#include<cmath>
+#include<cstdio>
+#include<vector>
+#include<string>
+#include<cstdlib>
+#include<cstring>
+#include<climits>
+#include<iostream>
+#include<algorithm>
+#include <cmath>
+#define LL long long
+using namespace std;
+const int maxn=10000+100;
+const double pi=acos(-1.0);
+double a[maxn];
+int n,f;
+double s(double r)
+{
+    return pi*r*r;
+}
+bool check(double x)
+{
+    int  t=0;
+    for(int i=0;i<n;i++)
+    {
+        double p=s(a[i]);
+        while(p>=x)
+        {
+            p-=x;
+            t++;
+            if(t>=f+1) return true;
+        }
+    }
+    return false;
+}
+int main()
+{
+    int T;
+    scanf("%d", &T);
+    while(T--)
+    {
+        double sum=0.0;
+        scanf("%d%d",&n,&f);
+        for(int i=0;i<n;i++)
+        {
+            scanf("%lf",&a[i]);
+            sum+=s(a[i]);
+        }
+        sort(a,a+n);
+        double l=0.0,r=sum/(f+1)*1.0;
+        double ans=0;
+        while(l+0.000001<=r)
+        {
+            double mid=(l+r)/2;
+            if(check(mid)) ans=mid,l=mid;
+            else r=mid;
+        }
+        printf("%.4lf\n",ans);
+    }
+    return 0;
+}
