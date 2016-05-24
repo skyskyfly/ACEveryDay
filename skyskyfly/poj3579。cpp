@@ -1,0 +1,36 @@
+#include <cstdio>
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+int a[100000+5];
+int n, m;
+
+bool ok(int d){
+    int cnt = 0;
+    for(int i=0; i<n; i++){
+        cnt += (upper_bound(a+i, a+n, a[i]+d)-1 - (a+i));
+    }
+    if(cnt >= m) return 1;
+    else return 0;
+}
+
+int main(){
+    while(scanf("%d", &n) != EOF){
+        int c = n*(n-1)/2;
+	    if(c%2 == 0) m = c/2;
+	    else m = c/2 + 1;
+        for(int i=0; i<n; i++)
+            scanf("%d", &a[i]);
+        sort(a, a+n);
+        int lb = -1, ub = a[n-1] - a[0];
+        while(ub - lb > 1){
+            int mid = (lb+ub)>>1;
+            if(ok(mid)) ub = mid;
+            else lb = mid;
+        }
+        printf("%d\n", ub);
+    }
+    return 0;
+}
